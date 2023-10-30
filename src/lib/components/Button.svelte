@@ -9,6 +9,7 @@
 	bind:this={node}
 	class:edit={appearance === 'edit'}
 	class:delete={appearance === 'delete'}
+	on:click
 	{...$$restProps}
 >
 	<slot />

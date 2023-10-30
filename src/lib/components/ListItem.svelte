@@ -1,9 +1,20 @@
 <script lang="ts">
-	import type { TodoItem } from '../../interfaces/todo.interface';
+	import type { EditEventModal, TodoItem } from '../../interfaces/todo.interface';
 	import { Pencil, Trash2 } from 'lucide-svelte';
 	import Button from './Button.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let item: TodoItem;
+
+	const dispatch = createEventDispatcher<EditEventModal>();
+
+	const openEditModal = (id: string) => {
+		if (!id) console.error(`Given item do not have id: ${id}`);
+		dispatch('openEditModal', {
+			display: true,
+			id
+		});
+	};
 </script>
 
 <div class="wrapper">
@@ -12,7 +23,8 @@
 		<p>{item.title}</p>
 	</div>
 	<div class="buttons">
-		<Button appearance="edit"><Pencil /></Button>
+		<Button appearance="edit" on:click={() => openEditModal(item._id ?? '')}><Pencil /></Button>
+		<!-- <button on:click={() => (display = !display)}>elo</button> -->
 		<Button appearance="delete"><Trash2 /></Button>
 	</div>
 </div>
