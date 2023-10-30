@@ -1,23 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import SearchForm from '$lib/components/SearchForm.svelte';
+	import AddForm from '$lib/components/AddForm.svelte';
 	import ToDoList from '$lib/components/ToDoList.svelte';
 
 	export let data: PageData;
 
 	$: todo = data.todo;
-
-	let todoString = '';
-
-	onMount(() => {
-		todoString = JSON.stringify(todo);
-	});
 </script>
 
 <div class="app-wrapper">
 	<h1 class="title">Todo App</h1>
-	<SearchForm />
+	<AddForm />
 	<ToDoList items={todo} />
 </div>
 

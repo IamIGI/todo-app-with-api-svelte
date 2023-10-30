@@ -1,15 +1,34 @@
 <script lang="ts">
-	import type { TodoItem } from '../../interfaces/todo.interface';
+	import type { CloseEventModal, EditEventModal, TodoItem } from '../../interfaces/todo.interface';
 	import ListItem from './ListItem.svelte';
+	import Modal from './Modal.svelte';
 
 	export let items: TodoItem[];
+
+	let displayEditModal = false;
+	let displayDeleteModal = false;
+
+	function openEditModal(e: CustomEvent<EditEventModal>) {
+		const { display, id } = e.detail;
+		displayEditModal = display;
+		console.log(id);
+	}
+
+	function closeModal(e: CustomEvent<CloseEventModal>) {
+		const { display } = e.detail;
+		displayEditModal = display;
+		displayDeleteModal = display;
+	}
 </script>
 
 <ul>
 	{#each items as item}
-		<li><ListItem {item} /></li>
+		<li><ListItem {item} on:openEditModal={openEditModal} /></li>
 	{/each}
 </ul>
+{#if displayEditModal}
+	<Modal on:closeModal={closeModal}>Elo</Modal>
+{/if}
 
 <style lang="scss">
 	ul {
