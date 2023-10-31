@@ -22,8 +22,8 @@
 <style lang="scss">
 	button {
 		text-align: center;
-		height: 40px;
-		width: 40px;
+		width: fit-content;
+		padding: 7px 10px;
 		border-radius: 3px;
 		border: none;
 		cursor: pointer;
