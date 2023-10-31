@@ -3,10 +3,10 @@
 	import type { CloseEventModal } from '../../interfaces/todo.interface';
 	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher<CloseEventModal>();
+	const dispatchClose = createEventDispatcher<{ closeModal: CloseEventModal }>();
 
 	const closeModal = () => {
-		dispatch('closeModal', {
+		dispatchClose('closeModal', {
 			display: false
 		});
 	};
@@ -27,6 +27,7 @@
 		justify-content: flex-end;
 		align-items: center;
 		width: 100%;
+		padding-bottom: 10px;
 
 		button {
 			border: none;
@@ -56,7 +57,7 @@
 
 	.modal-content {
 		background-color: var(--bg-tile-color);
-		height: 150px;
+		height: 130px;
 		width: 300px;
 		padding: 10px;
 		border-radius: 5px;

@@ -9,7 +9,22 @@ export interface TodoItem {
 
 export interface EditEventModal {
 	display: boolean;
-	id: number;
+	id: string;
+	title: string;
+}
+
+export interface EditModal {
+	id: string;
+	title: string;
+}
+
+export interface DeleteModal {
+	id: string;
+}
+
+export interface DeleteEventModal {
+	display: boolean;
+	id: string;
 }
 
 export interface CloseEventModal {

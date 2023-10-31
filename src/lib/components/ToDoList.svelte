@@ -1,5 +1,14 @@
 <script lang="ts">
-	import type { CloseEventModal, EditEventModal, TodoItem } from '../../interfaces/todo.interface';
+	import type {
+		CloseEventModal,
+		DeleteEventModal,
+		DeleteModal,
+		EditEventModal,
+		EditModal,
+		TodoItem
+	} from '../../interfaces/todo.interface';
+	import DeleteForm from './DeleteForm.svelte';
+	import EditForm from './EditForm.svelte';
 	import ListItem from './ListItem.svelte';
 	import Modal from './Modal.svelte';
 
@@ -7,11 +16,19 @@
 
 	let displayEditModal = false;
 	let displayDeleteModal = false;
+	let editModalObject: EditModal;
+	let deleteModalObject: DeleteModal;
 
 	function openEditModal(e: CustomEvent<EditEventModal>) {
-		const { display, id } = e.detail;
+		const { display, id, title } = e.detail;
+		editModalObject = { id, title };
 		displayEditModal = display;
-		console.log(id);
+	}
+
+	function openDeleteModal(e: CustomEvent<DeleteEventModal>) {
+		const { display, id } = e.detail;
+		deleteModalObject = { id };
+		displayDeleteModal = display;
 	}
 
 	function closeModal(e: CustomEvent<CloseEventModal>) {
@@ -23,11 +40,20 @@
 
 <ul>
 	{#each items as item}
-		<li><ListItem {item} on:openEditModal={openEditModal} /></li>
+		<li>
+			<ListItem {item} on:openEditModal={openEditModal} on:openDeleteModal={openDeleteModal} />
+		</li>
 	{/each}
 </ul>
 {#if displayEditModal}
-	<Modal on:closeModal={closeModal}>Elo</Modal>
+	<Modal on:closeModal={closeModal}>
+		<EditForm item={editModalObject} on:closeModal={closeModal} />
+	</Modal>
+{/if}
+{#if displayDeleteModal}
+	<Modal on:closeModal={closeModal}>
+		<DeleteForm item={deleteModalObject} on:closeModal={closeModal} />
+	</Modal>
 {/if}
 
 <style lang="scss">

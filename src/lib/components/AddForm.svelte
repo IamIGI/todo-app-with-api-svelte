@@ -5,17 +5,30 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	let inputText: string = '';
+	let placeholderText = 'Add task';
 
-	const addItem: SubmitFunction = async () => {
+	const addItemForm: SubmitFunction = async ({ cancel }) => {
+		if (inputText.length === 0) {
+			placeholderText = 'Provide task text';
+			cancel();
+		}
+
 		return async ({ result }) => {
 			inputText = '';
+			placeholderText = 'Add task';
 			await applyAction(result);
 		};
 	};
 </script>
 
-<form method="POST" action="/todo?/addItem" use:enhance={addItem}>
-	<input type="text" class="input" name="title" placeholder="Add task" bind:value={inputText} />
+<form method="POST" action="/todo?/addItem" use:enhance={addItemForm}>
+	<input
+		type="text"
+		class="input"
+		name="title"
+		placeholder={placeholderText}
+		bind:value={inputText}
+	/>
 	<Button appearance="edit" type="submit"><Plus /></Button>
 </form>
 

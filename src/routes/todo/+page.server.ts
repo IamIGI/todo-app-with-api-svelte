@@ -10,7 +10,6 @@ export const actions: Actions = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-				// 'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			body: JSON.stringify({
 				userName: 'sveltekit',
@@ -29,6 +28,9 @@ export const actions: Actions = {
 
 		const res = await fetch(`${BASE_URL}/edit`, {
 			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				id,
 				userName: 'sveltekit',
@@ -40,29 +42,15 @@ export const actions: Actions = {
 
 		throw redirect(303, '/');
 	},
-	deleteItem: async ({ params, fetch }) => {
-		const id = params.id;
+	deleteItem: async ({ request, fetch }) => {
+		const data = await request.formData();
+		const id = data.get('id');
 
 		const res = await fetch(`${BASE_URL}/delete/${id}`, {
 			method: 'DELETE'
 		});
 
 		if (!res.ok) console.error(`Status: ${res.status}`, 'Could not delete item');
-
-		throw redirect(303, '/');
-	},
-	editIsDone: async ({ request, fetch }) => {
-		const data = await request.formData();
-		const id = data.get('id');
-
-		const res = await fetch(`${BASE_URL}/isDoneEdit`, {
-			method: 'PATCH',
-			body: JSON.stringify({
-				id
-			})
-		});
-
-		if (!res.ok) console.error(`Status: ${res.status}`, 'Could not edit item');
 
 		throw redirect(303, '/');
 	}
